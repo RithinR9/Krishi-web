@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget calculation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script defer src="{{ url_for('static', filename='app.js') }}"></script>
+</head>
+<body>
+    <div style='width: 100%;
+    height: 80vh;
+    background-image: linear-gradient(rgba(17, 150, 0, 0.667),rgba(0,0,0,0.75)),url(static/bg.png);
+    background-size: cover;
+    border-bottom: 25px solid rgba(17, 150, 0);
+    background-position: center;'>
+    <div class='navbar'>
+        <img src="static/logo.png" class="logo">
+        <ul>
+            <li><a href="static/index.html">Home</a></li>
+            <li><a href="http://127.0.0.1:5000">Project</a></li>
+            <li><a href="http://127.0.0.1:4500">Budget</a></li>
+        </ul>
+    </div>
+    <div class="content">
+        <h1> Budget calculation</h1>
+        <form id="budgetForm">
+            <h3>Enter crop type:</h3>
+        <input list="crop_name" name="crop_name">
+        <datalist id="crop_name">
+            <option value="Maize">
+            <option value="Wheat">
+            <option value="Sugarcane">
+            <option value="Ragi">
+            <option value="Rice">
+            <option value="Cotton">
+            <option value="Linseed">
+            <option value="Sunflower"> 
+            <option value="Citrus fruits">
+            <option value="Jowar">
+            <option value="Groundnut">
+            <option value="Millets">
+            <option value="Barley">                
+            <option value="Gram">
+            <option value="Vegetables">
+            <option value="Mustard">
+            <option value="Carrot">
+            <option value="Fenugreek">
+            <option value="Turnip">
+            <option value="Watermelon">
+        </datalist>
+
+        <label for="Field_size"><h3>Enter field size (in acres): </h3></label>
+        <input type="number" id="Field_size" name="Field_size"><br><br>
+
+        <h3>Soil fertility:</h3>
+        <input list="fertility" name="fertility">
+        <datalist id="fertility">
+            <option value="low">
+            <option value="medium">
+            <option value="high">
+        </datalist>
+
+        <label for="Labor_Hours"><h3>Enter labor hours: </h3></label><br>
+        <input type="number" id="Labor_Hours" name="Labor_Hours"><br><br>
+
+        <label for="Labor_Rate"><h3>Enter labor rate: </h3></label><br>
+        <input type="number" id="Labor_rate" name="Labor_rate"><br><br>
+
+            <input type="button" value="Submit" onclick="submitBudgetForm()">
+        </form>
+        <div id="budgetResult"></div>
+    </div>
+    </div>
+
+    <script>
+        function submitBudgetForm() {
+            var formData = new FormData(document.getElementById('budgetForm'));
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/budget', true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    document.getElementById('budgetResult').innerHTML = xhr.responseText;
+                } else {
+                    console.error('Error occurred while processing the form.');
+                }
+            };
+            xhr.send(formData);
+        }
+    </script>
+</body>
+</html>
